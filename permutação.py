@@ -1,21 +1,25 @@
 def gerar_permutacoes(conjunto):
     if len(conjunto) == 0:
-        return [[]]
+        return [[]], 1
     else:
-        permutacoes_anteriores = gerar_permutacoes(conjunto[1:])
-        novas_permutacoes = []
-        for p in permutacoes_anteriores:
-            for i in range(len(p)+1):
-                nova_permutacao = p[:i] + [conjunto[0]] + p[i:]
-                novas_permutacoes.append(nova_permutacao)
-        return novas_permutacoes
+        permutacoes = []
+        num_permutacoes = 0
+        for i in range(len(conjunto)):
+            item = conjunto[i]
+            subconjunto = conjunto[:i] + conjunto[i+1:]
+            permutacoes_subconjunto, num_permutacoes_subconjunto = gerar_permutacoes(subconjunto)
+            permutacoes_subconjunto = [[item] + permutacao for permutacao in permutacoes_subconjunto]
+            permutacoes += permutacoes_subconjunto
+            num_permutacoes += num_permutacoes_subconjunto
+        return permutacoes, num_permutacoes
 
 # Define o conjunto de elementos
-conjunto = ['A', 'B', 'C', "D"]
+conjunto = ['A', 'B', 'C', 'D']
 
-# Gera todas as permutações do conjunto
-permutacoes = gerar_permutacoes(conjunto)
+# Gera todas as permutações do conjunto e conta o número de permutações geradas
+permutacoes, num_permutacoes = gerar_permutacoes(conjunto)
 
-# Imprime as permutações geradas
+# Imprime as permutações geradas e o número de permutações
 for p in permutacoes:
     print(p)
+print("Número de permutações geradas:", num_permutacoes)
