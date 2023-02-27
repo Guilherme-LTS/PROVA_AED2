@@ -1,22 +1,22 @@
 def gerar_combinacoes(conjunto, k):
     if k == 0:
-        return [[]]
+        return [[]], 1
     elif len(conjunto) == 0:
-        return []
+        return [], 0
     else:
-        item = conjunto[0]
-        combs_sem_item = gerar_combinacoes(conjunto[1:], k)
-        combs_com_item = gerar_combinacoes(conjunto[1:], k-1)
-        combs_com_item = [[item] + comb for comb in combs_com_item]
-        return combs_sem_item + combs_com_item
+        combs_sem_item, num_combs_sem_item = gerar_combinacoes(conjunto[1:], k)
+        combs_com_item, num_combs_com_item = gerar_combinacoes(conjunto[1:], k-1)
+        combs_com_item = [[conjunto[0]] + comb for comb in combs_com_item]
+        return combs_sem_item + combs_com_item, num_combs_sem_item + num_combs_com_item
 
 # Define o conjunto de elementos e o tamanho das combinações
-conjunto = ['A', 'R', 'A', 'R', "A"]
-k = 2
+conjunto = ['A', 'B', 'C', 'D']
+k = 3
 
-# Gera todas as combinações do conjunto
-combinacoes = gerar_combinacoes(conjunto, k)
+# Gera todas as combinações do conjunto e conta o número de combinações geradas
+combinacoes, num_combinacoes = gerar_combinacoes(conjunto, k)
 
-# Imprime as combinações geradas
+# Imprime as combinações geradas e o número de combinações
 for c in combinacoes:
     print(c)
+print("Número de combinações geradas:", num_combinacoes)
